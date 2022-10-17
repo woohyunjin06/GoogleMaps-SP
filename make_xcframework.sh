@@ -19,9 +19,9 @@ function archive_project() {
 
   # Archive iOS Simulator project.
   xcodebuild archive\
-     -project "../$project_name.xcodeproj"\
+     -project "../$project_name-sim.xcodeproj"\
      -scheme "$framework_name"\
-     -configuration "Simulator Release"\
+     -configuration "Release"\
      -destination "generic/platform=iOS Simulator"\
      -archivePath "$framework_name.framework-iphonesimulator.xcarchive"\
      SKIP_INSTALL=NO\
@@ -49,9 +49,6 @@ function create_xcframework() {
 }
 
 function prepare() {
-  # Install Google Maps SDK for iOS.
-  carthage update
-
   # Create Build directory if not existing.
   if [ ! -d "$BUILD_DIRECTORY" ]; then
     mkdir $BUILD_DIRECTORY

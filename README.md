@@ -1,25 +1,38 @@
 # Google Maps Swift Package
 
-## Requirements
-* [iOS 13.0](https://wikipedia.org/wiki/IOS_13) or later.
-* [Xcode 13.0](https://developer.apple.com/xcode) or later.
+Experimental support for Swift Package Manager and ARM64 simulator for Google Maps and Places SDK.
 
-## Installation
-- Add the following dependency to your project's `Package.swift`.
+While Google provides XCFrameworks with ARM64 simulator support as a beta release, the frameworks do not work when added as a dependency to Swift Package Manager. Google still offers legacy fat frameworks that can be easily combined into XCFrameworks and used from Swift Package, but they lack support for the ARM64 simulator.
+
+This project rebuilds Google's beta XCFrameworks so they can be added as a dependency to Swift Package, preserving support for the ARM64 simulator, which allows development on Apple Silicon (M1, etc.) computers.
+
+## Requirements
+
+* [iOS 13.0](https://wikipedia.org/wiki/IOS_13) or later.
+* [Xcode 14.0](https://developer.apple.com/xcode) or later.
+
+## Add as a dependecy to your Swift Package
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/YAtechnologies/GoogleMaps-SP.git", .upToNextMinor(from: "7.1.0"))
+  .package(url: "https://github.com/darrarski/GoogleMaps-SP.git", .upToNextMinor(from: "7.1.0"))
 ]
 ```
 
-### Known Issues
-- If you use a Google Maps Swift package in an app with extensions, the build system incorrectly embeds the binary dependencies alongside the extension in the PlugIns directory, causing validation of the archived app to fail. (69834549) (FB8761306)
+## Build XCFrameworks yourself
 
-    **Workaround:** Add a scheme post-build action which removes the embedded binaries from the PlugIns directory after the build, e.g. `rm -rf "${TARGET_BUILD_DIR}/${TARGET_NAME}.app"/PlugIns/*.framework`.
+1. Clone this project.
+2. Download official XCFrameworks from Google:
+  - [GoogleMaps SDK](https://developers.google.com/maps/documentation/ios-sdk/config#install-the-xcframework)
+  - [GooglePlaces SDK](https://developers.google.com/maps/documentation/places/ios-sdk/config#install-the-xcframework)
+3. Unzip and put downloaded XCFrameworks inside `GoogleFrameworks` directory
+4. Run `make_xcframeworks.sh` script.
+5. You can find your new XCFrameworks in `Build` directory.
 
-## Sponsor
-If you find this package useful please consider **[STARRING 🌟](https://github.com/YAtechnologies/GoogleMaps-SP/stargazers)** this repository.
+## License & Copyright
 
-## License
-The **Google Maps iOS SDK** and **Google Places iOS SDK** libraries are the property of Google and are subject to *Google's Terms of Service*. See [LICENSE.google](https://github.com/YAtechnologies/GoogleMaps-SP/blob/main/LICENSE.google) for details.
+The **Google Maps iOS SDK** and **Google Places iOS SDK** libraries are the property of Google and are subject to *Google's Terms of Service*. See [LICENSE.google](LICENSE.google) for details.
+
+This repo is a fork of [YAtechnologies/GoogleMaps-SP](https://github.com/YAtechnologies/GoogleMaps-SP) with some tweeks that adds support for ARM64 simulator.
+
+This repo is provided as is, without any guarantee. It can (hopefully) become obsolete once Google fixes their SDKs.
