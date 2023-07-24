@@ -72,8 +72,6 @@ function build_xcproject_project() {
   create_xcframework "GoogleMaps" "GoogleMaps"
   create_xcframework "GoogleMaps" "GoogleMapsBase"
   create_xcframework "GoogleMaps" "GoogleMapsCore"
-  create_xcframework "GoogleMaps" "GoogleMapsM4B"
-  create_xcframework "GoogleMaps" "GooglePlaces"
 
   cleanup
 }
